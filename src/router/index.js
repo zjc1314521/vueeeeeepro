@@ -5,8 +5,7 @@ import Home from '@/components/Home.vue'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/login',
       name: 'Login',
       component: Login

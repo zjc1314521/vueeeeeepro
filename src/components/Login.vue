@@ -35,7 +35,7 @@ export default {
         username: '',
         password: ''
       },
-     // 给登录表单域设置校验规则
+      // 给登录表单域设置校验规则
       loginFormRules: {
         // 设定具体规则
         username: [
@@ -50,20 +50,14 @@ export default {
     login() {
       // 对form表单进行校验
       this.$refs.loginFormRef.validate(async valid => {
-        //  console.log(1)
-        //  console.log(valid) 
-        //  this.$router.push('/home')
-         if(valid===true){
-           console.log(await this.$http.post('login',this.loginForm))
-           const {data:res}=await this.$http.post('login',this.loginForm)
-           if(res.meta.status !==200){
-             return this.$message.error('用户名或者密码错误')
-           }
-          window.sessionStorage.setItem('token',res.data.token)
+        if (valid === true) {
+          const { data: res } = await this.$http.post('login', this.loginForm)
+          if (res.meta.status !== 200) {
+            return this.$message.error('用户名或者密码错误')
+          }
+          window.sessionStorage.setItem('token', res.data.token)
           this.$router.push('/home')
-         }
-        
-       
+        }
       })
     },
     resetForm() {
