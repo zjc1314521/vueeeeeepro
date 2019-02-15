@@ -27,13 +27,16 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
+    // 定义登录表单需要使用的数据部分
+    // loginForm：收集登录表单的全部表单域信息
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       // 给登录表单域设置校验规则
       loginFormRules: {
@@ -47,19 +50,28 @@ export default {
     }
   },
   methods: {
+    // 用户登录系统
     login() {
       // 对form表单进行校验
       this.$refs.loginFormRef.validate(async valid => {
+        // console.log(valid)  valid:true/false 校验成功或失败
         if (valid === true) {
+          // 利用axios，把用户信息提交到api进行真实性校验
           const { data: res } = await this.$http.post('login', this.loginForm)
           if (res.meta.status !== 200) {
-            return this.$message.error('用户名或者密码错误')
+            return this.$message.error('用户名或密码不存在')
           }
+
+          // 通过sessionStorage记录token
+          // window.sessionStorage(名称，值)
           window.sessionStorage.setItem('token', res.data.token)
+
+          // 进行路由跳转(重定向)，具体跳转到(/home)
           this.$router.push('/home')
         }
       })
     },
+    // 重置form表单
     resetForm() {
       this.$refs.loginFormRef.resetFields()
     }
@@ -69,12 +81,12 @@ export default {
 
 <style lang="less" scoped>
 #login-container {
-  background-color: #284868;
+  background-color: #2b4b6b;
   height: 100%;
   overflow: hidden;
   #login-box {
-    height: 304px;
     width: 450px;
+    height: 304px;
     background-color: #fff;
     border-radius: 4px;
     position: absolute;
@@ -87,7 +99,7 @@ export default {
       border: 1px solid #eee;
       border-radius: 50%;
       padding: 8px;
-      box-shadow: 0px 0px 10px #eee;
+      box-shadow: 0 0 10px #eee;
       position: absolute;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -102,18 +114,10 @@ export default {
     .el-form {
       width: 100%;
       position: absolute;
-      bottom: 0px;
-      box-sizing: border-box;
+      bottom: 0;
       padding: 20px;
-      .el-input {
-        margin-bottom: 10px;
-        line-height: 40px;
-      }
-      .el-row {
-        margin-top: 14px;
-      }
+      box-sizing: border-box;
     }
   }
 }
 </style>
-
