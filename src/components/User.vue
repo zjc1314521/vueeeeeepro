@@ -31,9 +31,12 @@
         <el-table-column prop="mobile" label="手机号" width="140"></el-table-column>
         <el-table-column prop="role_name" label="角色" width="130"></el-table-column>
         <el-table-column prop="email" label="邮箱" width="150"></el-table-column>
+        
         <el-table-column prop="mg-state" label="状态" width="70">
-          <el-switch slot-scope="info" v-model="info.row.mg_state"></el-switch>
+          <el-switch slot-scope="info" v-model="info.row.mg_state" @change="changeState(info.row.id,info.row.mg_state)"></el-switch>
+        
         </el-table-column>
+        
         <el-table-column label="操作" width="270">
           <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
@@ -63,6 +66,7 @@ export default {
     this.getUserInfos()
   },
   methods: {
+
     handleSizeChange(val) {
       //val:代表变化后的信息条数值
       this.queryParams.pagesize = val
@@ -72,6 +76,17 @@ export default {
     handleCurrentChange(val) {
       this.queryParams.pagenum = val
       this.getUserInfos()
+    },
+    async changeState(id,state){
+        const {data:res}=await this.$http.put(`users/${id}/state/${state}`)
+              if(res.meta.status!=200){
+                return this.$message.error(res.meta.msg)
+              }
+              this.$message({
+                message:res.meta.msg,
+                type:"success",
+                duration:1500
+              })
     },
     async getUserInfos() {
       const { data: res } = await this.$http.get('users', {
