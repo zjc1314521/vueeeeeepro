@@ -13,3 +13,18 @@ html,body,#app{
 i.iconfont{
   margin-right:10px;
 }
+/* 给给各个功能的卡片设置样式 */
+.box-card{
+  margin-top:15px;
+  box-shadow: 0px 1px 1px rgba(0,0,0,.15) !important;
+}
+
+.el-table{
+  margin-top:15px;
+  font-size: 12px;
+}
+/* el-pagination */
+.el-pagination{
+  margin-top:15px;
+  font-size: 2px;
+}
