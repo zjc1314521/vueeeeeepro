@@ -4,7 +4,7 @@ import Login from '@/components/Login'
 import Home from '@/components/Home'  // 是App的子组件
 import Welcome from '@/components/Welcome'  // 具体是home的子组件
 import User from '@/components/User'  // 具体是home的子组件
-
+import Rights from '@/components/rights'
 Vue.use(Router)
 
 var router = new Router({
@@ -14,6 +14,7 @@ var router = new Router({
     { path: '/home', component: Home, redirect:'/welcome', children:[
       {path:'/welcome', component: Welcome},
       {path:'/users', component: User},
+      {path:"/rights",component:Rights}
     ]}
   ]
 })
